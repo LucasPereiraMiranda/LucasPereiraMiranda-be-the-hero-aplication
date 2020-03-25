@@ -5,7 +5,7 @@ module.exports = {
     /*list all incidents contained in database*/
     async index(req,res){
         
-        const { page = 1} = req.query;
+        const { page = 1 } = req.query;
 
         const [count] = await connection('incidents')
             .count();
@@ -51,8 +51,7 @@ module.exports = {
         const incident = await connection('incidents')
             .select('ong_id')
             .where('id',id)
-            .first();
-            
+            .first();            
         
         if(incident.ong_id != ong_id){
             /* 401 : without authorization */
@@ -62,5 +61,36 @@ module.exports = {
         await connection('incidents').where('id',id).delete();
         /* 204 : success but dont content */
         return res.status(204).send();
+    },
+
+    /* update any incident*/
+    async update(req,res){
+        const { title, description, value } = req.body;
+        const { id } = req.params.id;
+        const ong_id = req.headers.authorization;
+
+        const incident = await connection('incidents')
+            .select('ong_id')
+            .where('id',id)
+            .first();
+
+        if(!incident){
+            return res.status(404).json({error:'Not found'});
+        }
+
+        if(incident.ong_id != ong_id){
+            /* 401 : without authorization */
+            return res.status(401).json({error:'Operation not permited'});
+        }
+
+        await connection('incidents').where('id',id).update('');
+
+        updatedIncident = await connection('incidents').update({
+            'title':title,
+            'description':description,
+            'value':value
+        });
+
+        return res.json(updatedIncident);
     }
 }

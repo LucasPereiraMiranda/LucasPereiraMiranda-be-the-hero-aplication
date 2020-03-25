@@ -23,7 +23,7 @@ app.listen(3333,()=>{
   * Metodos HTTP:
   * 
   * GET: Buscar uma informação no backend
-  * POST: Criar uma informação no backend
+  * POST: Criar/mandar uma informação no backend
   * PUT: Alterar uma informação no backend
   * DELETE: deletar uma informação no backend
   */

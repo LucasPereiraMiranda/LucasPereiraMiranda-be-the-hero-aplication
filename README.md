@@ -1,3 +1,3 @@
-# be-the-hero-aplication
+# be-the-hero-application
 week-omnistack-11 project
 

@@ -9,7 +9,7 @@ module.exports = {
 
         const [count] = await connection('incidents')
             .count();
-
+        
         const incidents = await connection('incidents')
             .join('ongs','ongs.id','=','incidents.ong_id')
             .limit(5)
@@ -47,13 +47,15 @@ module.exports = {
     async delete(req,res){
         
         const { id } = req.params;
-        const ong_id = req.headers.authorization;
+        console.log(id)
+        const ongId = req.headers.authorization;
+        console.log(ongId)
         const incident = await connection('incidents')
             .select('ong_id')
             .where('id',id)
             .first();            
         
-        if(incident.ong_id != ong_id){
+        if(incident.ong_id != ongId){
             /* 401 : without authorization */
             return res.status(401).json({error:'Operation not permited'});
         }

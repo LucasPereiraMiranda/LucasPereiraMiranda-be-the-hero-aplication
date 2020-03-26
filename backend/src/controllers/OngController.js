@@ -23,6 +23,14 @@ module.exports = {
             city,
             uf,
         })
+
+        const result = await connection('ongs')
+            .select('name')
+            .where('id',id)
+            .first()
+        
+            console.log(result.name);
+
         // retorna o id pois ele sera usado como um item importante para o login na aplicacao
         return res.json({id});
     }

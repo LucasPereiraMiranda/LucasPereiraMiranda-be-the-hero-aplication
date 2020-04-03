@@ -47,14 +47,14 @@ module.exports = {
     async delete(req,res){
         
         const { id } = req.params;
-        console.log(id)
         const ongId = req.headers.authorization;
-        console.log(ongId)
+
         const incident = await connection('incidents')
             .select('ong_id')
-            .where('id',id)
-            .first();            
-        
+            .where('id','=',id)
+            .first();
+        console.log(incident.ong_id)
+
         if(incident.ong_id != ongId){
             /* 401 : without authorization */
             return res.status(401).json({error:'Operation not permited'});
@@ -65,6 +65,7 @@ module.exports = {
         return res.status(204).send();
     },
 
+    
     /* update any incident*/
     async update(req,res){
         const { title, description, value } = req.body;
